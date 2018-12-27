@@ -1,0 +1,43 @@
+if (needSharelib.toBoolean()) {
+    apply plugin: 'com.android.library'
+} else {
+    apply plugin: 'com.android.application'
+}
+
+
+android {
+    compileSdkVersion compile_Sdk_Version.toInteger()
+    defaultConfig {
+        if (!needSharelib.toBoolean()) {
+            applicationId "com.qishui.sharelibrary"
+        }
+        minSdkVersion min_Sdk_Version.toInteger()
+        targetSdkVersion target_Sdk_Version.toInteger()
+        versionCode version_Code.toInteger()
+        versionName "$version_Name"
+    }
+
+    sourceSets{
+        main{
+            if(needSharelib.toBoolean()){
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+            }else {
+                manifest.srcFile 'src/main/manifest/AndroidManifest.xml'
+            }
+        }
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':commonlibrary')
+}

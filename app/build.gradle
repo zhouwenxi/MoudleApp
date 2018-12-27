@@ -1,0 +1,35 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion compile_Sdk_Version.toInteger()
+    defaultConfig {
+        applicationId "$_applicationId"
+        minSdkVersion min_Sdk_Version.toInteger()
+        targetSdkVersion target_Sdk_Version.toInteger()
+        versionCode version_Code.toInteger()
+        versionName "$version_Name"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':commonlibrary')
+
+
+    if (needSharelib.toBoolean()) {
+        implementation project(':sharelibrary')
+    }
+
+    if (needZxingLib.toBoolean()) {
+        implementation project(':zxinglibrary')
+    }
+
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+}
